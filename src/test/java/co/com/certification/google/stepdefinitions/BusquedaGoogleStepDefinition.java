@@ -6,8 +6,6 @@ import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
 import java.util.List;
 
 import co.com.certification.google.excepciones.TiposOpcionesExcepcion;
-import co.com.certification.google.questions.LasOpciones;
-import co.com.certification.google.tasks.Buscar;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -30,30 +28,6 @@ public class BusquedaGoogleStepDefinition {
 		OnStage.setTheStage(Cast.ofStandardActors());
 	}
 
-	@Given("^que (.*) esta en google$")
-	public void queNombreEstaEnGoogle(String name) {
-		OnStage.theActorCalled(name).can(BrowseTheWeb.with(hisDriver));
-		theActorInTheSpotlight().wasAbleTo(Open.url("http://www.google.com"));
-	}
 
-	@When("^el busca (.*)$")
-	public void elBuscaTexto(String texto) {
-		theActorInTheSpotlight().attemptsTo(Buscar.elTexto(texto));
-	}
-
-	@Then("^el vera los tipos de opciones para buscar$")
-	public void elVeraLosTiposDeOpcionesParaBuscar(List<String> lasOpcionesEsperadas) {
-		//System.out.println(theActorInTheSpotlight().asksFor(LasOpciones.obtenidas()));
-		
-		List<String> miLista = theActorInTheSpotlight().asksFor(LasOpciones.obtenidas());
-		for (String string : miLista) {
-			System.out.println(string);
-		}
-		
-		
-		theActorInTheSpotlight().should(seeThat(LasOpciones.obtenidas(), 
-				Matchers.containsInAnyOrder(lasOpcionesEsperadas.toArray())).
-				orComplainWith(TiposOpcionesExcepcion.class, "Este mensaje aparecera en el error"));
-	}
 
 }
